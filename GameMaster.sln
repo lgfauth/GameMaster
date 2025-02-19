@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E8A1D1E6-986E-46A8-B67F-851152CB1727}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configs", "Configs", "{DFF145E1-C0C1-4B3E-BFFD-A95F299921E9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LogManager", "LogManager", "{012CF51A-D9E6-4957-AFF0-ECF83767C21C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroservicesLogger", "src\LogManager\MicroservicesLogger.csproj", "{70A027A3-403B-4372-8F56-AE6CEDBADF1C}"

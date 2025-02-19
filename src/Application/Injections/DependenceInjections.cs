@@ -1,4 +1,6 @@
-﻿using GameMasterApplication.Models;
+﻿using GameMasterApplication.Services;
+using GameMasterDomain.Interfaces;
+using GameMasterDomain.Models;
 using MicroservicesLogger;
 using MicroservicesLogger.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -13,8 +15,17 @@ namespace GameMasterApplication.Injections
     {
         public static void Injections(IServiceCollection service)
         {
+
+            // Middlewares
             service.AddScoped<IApiLog<ApiLogModel>, ApiLog<ApiLogModel>>();
-            service.AddSingleton<ICharacterRepository, CharacterRepository>();
+
+            // Services
+            service.AddScoped<IAbilityService, AbilityService>();
+
+
+            // Repositories
+            service.AddScoped<IAbilityRepository, AbilityRepository>();
+            service.AddScoped<ICharacterRepository, CharacterRepository>();
         }
 
         public static void Configurations(IServiceCollection service, IConfigurationManager configuration)

@@ -10,7 +10,6 @@ namespace MongoDb.Repository
     public class CharacterRepository : ICharacterRepository
     {
         private readonly IMongoCollection<Character> _characters;
-        private readonly MongoDbSettings _settings;
 
         public CharacterRepository(IOptions<MongoDbSettings> mongoDbSettings, IOptions<MongoDbData> mongoDbData)
         {

@@ -1,6 +1,6 @@
-
 using GameMasterApplication.Injections;
 using Scalar.AspNetCore;
+using System.Reflection;
 
 namespace GameMasterAPI
 {
@@ -16,6 +16,13 @@ namespace GameMasterAPI
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
 
+
+            //builder.Services.AddSwaggerGen(c =>
+            //{
+            //    // Configura o Swagger para incluir os comentários do XML
+            //    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+            //});
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -28,7 +35,6 @@ namespace GameMasterAPI
                 // Option to use scalar like a documentation
                 app.MapScalarApiReference();
             }
-
 
             app.UseHttpsRedirection();
             app.UseAuthorization();

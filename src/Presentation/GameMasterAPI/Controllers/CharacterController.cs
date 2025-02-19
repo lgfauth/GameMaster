@@ -1,4 +1,4 @@
-using GameMasterApplication.Models;
+using GameMasterDomain.Models;
 using MicroservicesLogger.Enums;
 using MicroservicesLogger.Interfaces;
 using MicroservicesLogger.Models;
@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameMasterAPI.Controllers
 {
+    /// <summary>
+    /// A CRUD controller for your character into a RPG game.
+    /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CharacterController : ControllerBase
     {
         private readonly IApiLog<ApiLogModel> _logger;
@@ -17,16 +20,21 @@ namespace GameMasterAPI.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Get()
+        /// <summary>
+        /// Find onde character by Id.
+        /// </summary>
+        /// <param name="characterId">A Unique identifier GUID.</param>
+        /// <returns>A character class object.</returns>
+        [HttpGet("{characterId}")]
+        public async Task<ActionResult> FindACharacterAsync([FromRoute] Guid characterId)
         {
-            Console.WriteLine("blevers");
             var log = await _logger.CreateBaseLogAsync();
             var subLog = new SubLog();
             await log.AddStepAsync("GET_CHARACTER", subLog);
 
             try
             {
+                log.Request = new { characterId };
                 log.Endpoint = "CHARACTER_GET";
 
                 subLog.StartCronometer();

@@ -2,6 +2,7 @@
 {
     public enum ClassType
     {
+        None,
         Warrior,
         Mage,
         Rogue,
