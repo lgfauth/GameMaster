@@ -5,7 +5,7 @@
         /// <summary>
         /// Explain error.
         /// </summary>
-        /// <example>Accur some error</example>
+        /// <example>Occur some error</example>
         public string Details { get; set; } = string.Empty;
 
         /// <summary>

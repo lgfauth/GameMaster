@@ -1,6 +1,6 @@
 ﻿using MicroservicesLogger.Models;
 
-namespace GameMasterDomain.Models
+namespace GameMasterDomain.Models.ApiLogs
 {
     public class ApiLogModel : LogObject
     {

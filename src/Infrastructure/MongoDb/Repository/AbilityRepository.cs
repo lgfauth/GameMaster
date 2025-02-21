@@ -5,6 +5,7 @@ using MongoDb.Interfaces;
 using MongoDb.Settings;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Text.RegularExpressions;
 
 namespace MongoDb.Repository
 {
@@ -22,7 +23,12 @@ namespace MongoDb.Repository
         /// <param name="mongoDbData">Data for MongoDB connection.</param>
         public AbilityRepository(IOptions<MongoDbSettings> mongoDbSettings, IOptions<MongoDbData> mongoDbData)
         {
-            string connectionString = string.Format(mongoDbSettings.Value.ConnectionString, mongoDbData.Value.user, mongoDbData.Value.passsword, mongoDbData.Value.cluster);
+            string connectionString = string.Format(
+                mongoDbSettings.Value.ConnectionString,
+                mongoDbData.Value.user,
+                mongoDbData.Value.passsword,
+                mongoDbData.Value.cluster);
+
             var client = new MongoClient(connectionString);
 
             var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
@@ -31,7 +37,9 @@ namespace MongoDb.Repository
 
         public async Task<IEnumerable<Ability?>> GetAbilitiesByClassAsync(ClassType classType)
         {
-            var filter = Builders<Ability>.Filter.Regex("RequiredClass", new BsonRegularExpression($"^{classType}$", "i"));
+            var filter = Builders<Ability>.Filter.Regex(a =>
+                a.RequiredClass, new BsonRegularExpression($".*{classType}.*", "i"));
+
             var response = await _abilities.FindAsync(filter);
 
             return response.ToEnumerable().OrderBy(x => x.RequiredLevel);
@@ -39,15 +47,22 @@ namespace MongoDb.Repository
 
         public async Task<IEnumerable<Ability?>> GetAbilitiesByNameAsync(string abilityName)
         {
-            var response = _abilities.Find(c => c.Name.Equals(abilityName)).ToEnumerable().OrderBy(x => x.RequiredLevel);
-            await Task.Delay(0);
+            var escapedName = Regex.Escape(abilityName);
+            var filter = Builders<Ability>.Filter.Regex(a =>
+                a.Name, new BsonRegularExpression($".*{escapedName}.*", "i"));
 
-            return response!;
+            var response = await _abilities.FindAsync(filter);
+
+            return response.ToEnumerable().OrderBy(x => x.RequiredLevel);
         }
 
-        public Task<IEnumerable<Ability?>> GetAllAbilitiesAsync(int page, int itensPage)
+        public IEnumerable<Ability?> GetAllAbilities(int skip, int itensPage)
         {
-            throw new NotImplementedException();
+            var filter = Builders<Ability>.Filter.Empty;
+
+            var response = _abilities.Find(filter).Skip(skip).Limit(itensPage).ToEnumerable();
+
+            return response.OrderBy(x => x.RequiredLevel);
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using GameMasterDomain.Entities;
 
-namespace GameMasterDomain.Models.Responses
+namespace GameMasterDomain.Models.Responses.Ability
 {
-    public class AbilityDto
+    /// <summary>
+    /// Object returned for abilities requests.
+    /// </summary>
+    public record AbilityDto
     {
         /// <summary>
         /// Name of ability.

@@ -7,7 +7,7 @@ namespace MongoDb.Interfaces
     {
         Task<IEnumerable<Ability?>> GetAbilitiesByClassAsync(ClassType classType);
         Task<IEnumerable<Ability?>> GetAbilitiesByNameAsync(string abilityName);
-        Task<IEnumerable<Ability?>> GetAllAbilitiesAsync(int page, int itensPage);
+        IEnumerable<Ability?> GetAllAbilities(int skip, int itensPage);
         //Task NewAbilitySugestion(Sugestion sugestion);
     }
 }

@@ -1,4 +1,4 @@
-using GameMasterDomain.Models;
+using GameMasterDomain.Models.ApiLogs;
 using MicroservicesLogger.Enums;
 using MicroservicesLogger.Interfaces;
 using MicroservicesLogger.Models;

@@ -1,5 +1,6 @@
 using GameMasterApplication.Injections;
-using Scalar.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 namespace GameMasterAPI
@@ -13,29 +14,37 @@ namespace GameMasterAPI
             DependenceInjections.Configurations(builder.Services, builder.Configuration);
             DependenceInjections.Injections(builder.Services);
 
-            builder.Services.AddControllers();
-            builder.Services.AddOpenApi();
+            builder.Services.AddControllers(options =>
+            {
+                // Injection global restriction for consumes and produces
+                options.Filters.Add(new ConsumesAttribute("application/json"));
+                options.Filters.Add(new ProducesAttribute("application/json"));
+            });
 
+            builder.Services.AddEndpointsApiExplorer();
 
-            //builder.Services.AddSwaggerGen(c =>
-            //{
-            //    // Configura o Swagger para incluir os comentários do XML
-            //    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
-            //});
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.EnableAnnotations();
+
+                var domainXmlPath = Path.Combine(AppContext.BaseDirectory, "GameMasterDomain.xml");
+                var presentationXmlPath = Path.Combine(AppContext.BaseDirectory, 
+                    $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+
+                options.IncludeXmlComments(domainXmlPath);
+                options.IncludeXmlComments(presentationXmlPath);
+
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Ruler RPG API", Version = "v1" });
+            });
 
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
-
-                // Option to use swagger like a documentation
-                //app.UseSwaggerUI(options => { options.SwaggerEndpoint("/openapi/v1.json", "Ruler RPG API"); });
-
-                // Option to use scalar like a documentation
-                app.MapScalarApiReference();
+                app.UseSwaggerUI();
             }
 
+            app.UseSwagger();
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();

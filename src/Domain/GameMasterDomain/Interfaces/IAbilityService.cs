@@ -1,6 +1,6 @@
 ﻿using GameMasterDomain.Enums;
 using GameMasterDomain.Models.Envelopes;
-using GameMasterDomain.Models.Responses;
+using GameMasterDomain.Models.Responses.Ability;
 
 namespace GameMasterDomain.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿using GameMasterDomain.Models.Responses;
+﻿using GameMasterDomain.Models.Responses.Ability;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 

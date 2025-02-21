@@ -1,6 +1,6 @@
 ﻿using GameMasterApplication.Services;
 using GameMasterDomain.Interfaces;
-using GameMasterDomain.Models;
+using GameMasterDomain.Models.ApiLogs;
 using MicroservicesLogger;
 using MicroservicesLogger.Interfaces;
 using Microsoft.Extensions.Configuration;
